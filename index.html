@@ -6,7 +6,6 @@
   <title>Education Info Portal</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <style>
@@ -348,3 +347,34 @@
       updateCarouselView();
       resetCarouselInterval();
     }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarouselView();
+      resetCarouselInterval();
+    }
+
+    function resetCarouselInterval() {
+      clearInterval(carouselInterval);
+      carouselInterval = setInterval(nextSlide, 5000);
+    }
+
+    // ============================================================================
+    // 5. INITIALIZATION
+    // ============================================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('lang-btn').addEventListener('click', toggleLanguage);
+      document.getElementById('carousel-next').addEventListener('click', nextSlide);
+      document.getElementById('carousel-prev').addEventListener('click', prevSlide);
+      updateStaticText();
+      renderSidebar();
+      renderNotices();
+      renderGrid();
+      renderCarouselStructure();
+      if (window.lucide) window.lucide.createIcons();
+      resetCarouselInterval();
+    });
+  </script>
+</body>
+</html>
