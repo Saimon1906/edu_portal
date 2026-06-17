@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Education Info Portal</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    @keyframes marquee { 
+      0% { transform: translateX(100%); } 
+      100% { transform: translateX(-100%); } 
+    }
+
+    .animate-marquee { 
+      display: inline-block; 
+      white-space: nowrap; 
+      animation: marquee 30s linear infinite; 
+    }
+
+    .animate-marquee:hover { 
+      animation-play-state: paused; 
+    }
+
+    .notice-scrollbar::-webkit-scrollbar { 
+      width: 6px; 
+    }
+
+    .notice-scrollbar::-webkit-scrollbar-track { 
+      background: #f1f5f9; 
+    }
+
+    .notice-scrollbar::-webkit-scrollbar-thumb { 
+      background: #cbd5e1; 
+      border-radius: 4px; 
+    }
+
+    .notice-scrollbar::-webkit-scrollbar-thumb:hover { 
+      background: #94a3b8; 
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-800">
+
+  <header class="sticky top-0 z-50 bg-white shadow-md border-b-4 border-blue-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+      <div class="flex items-center space-x-3">
+        <div class="p-2 bg-blue-50 rounded-full">
+          <i data-lucide="landmark" class="h-6 w-6 text-blue-800"></i>
+        </div>
+        <h1 id="header-title" class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight"></h1>
+      </div>
+      <button id="lang-btn" class="flex items-center px-4 py-2 bg-slate-100 hover:bg-blue-50 text-blue-800 font-semibold rounded-md border border-slate-200 transition-colors shadow-sm"></button>
+    </div>
+  </header>
+
+  <div class="bg-blue-800 text-white flex items-center overflow-hidden h-10 shadow-inner">
+    <div class="bg-red-600 h-full px-4 flex items-center justify-center font-bold text-sm whitespace-nowrap z-10 shadow-[2px_0_5px_rgba(0,0,0,0.2)]">
+      <i data-lucide="bell" class="h-4 w-4 mr-2 animate-pulse"></i>
+      <span id="latest-update-label"></span>
+    </div>
+    <div class="flex-1 overflow-hidden relative h-full flex items-center">
+      <div class="animate-marquee text-sm font-medium">
+        <span id="marquee-text-1"></span> &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; <span id="marquee-text-2"></span>
+      </div>
+    </div>
+  </div>
+
+  <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      
+      <aside class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-md border border-slate-200 overflow-hidden sticky top-32">
+          <div class="bg-slate-100 border-b border-slate-200 px-4 py-3 flex items-center">
+            <i data-lucide="globe" class="h-5 w-5 text-blue-700 mr-2"></i>
+            <h2 id="important-links-label" class="text-lg font-bold text-slate-800"></h2>
+          </div>
+          <ul id="sidebar-links" class="divide-y divide-slate-100">
+            </ul>
+        </div>
+      </aside>
+      
+      <div class="lg:col-span-3 space-y-8">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <div class="bg-white rounded-lg shadow-md overflow-hidden relative h-72 border border-slate-200 group">
+            <div id="carousel-slides">
+              </div>
+            
+            <button id="carousel-prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-1 bg-black/20 hover:bg-black/40 rounded-full text-white backdrop-blur-sm transition-all">
+              <i data-lucide="chevron-left" class="h-6 w-6"></i>
+            </button>
+            <button id="carousel-next" class="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-1 bg-black/20 hover:bg-black/40 rounded-full text-white backdrop-blur-sm transition-all">
+              <i data-lucide="chevron-right" class="h-6 w-6"></i>
+            </button>
+            
+            <div id="carousel-indicators" class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2 z-20">
+              </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md border border-slate-200 flex flex-col h-72">
+            <div class="bg-blue-800 px-4 py-3 flex items-center justify-between rounded-t-lg">
+              <div class="flex items-center text-white">
+                <i data-lucide="file-text" class="h-5 w-5 mr-2"></i>
+                <h2 id="notice-board-label" class="text-lg font-bold"></h2>
+              </div>
+            </div>
+            <div class="flex-1 overflow-y-auto notice-scrollbar p-0">
+              <ul id="notice-list" class="divide-y divide-slate-100">
+                </ul>
+            </div>
+            <div class="p-2 bg-slate-50 border-t border-slate-100 text-center rounded-b-lg">
+              <a href="#" id="view-all-notices" class="text-xs font-semibold text-blue-700 hover:text-blue-900 inline-block py-1"></a>
+            </div>
+          </div>
+        </section>
+        
+        <section class="bg-white rounded-lg shadow-md border border-slate-200 p-6">
+          <div id="service-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-300 py-8 border-t-4 border-blue-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+      <div class="flex items-center mb-4 md:mb-0">
+        <i data-lucide="mail" class="h-5 w-5 mr-3 text-blue-400"></i>
+        <span id="footer-contact" class="text-sm font-medium hover:text-white transition-colors cursor-pointer"></span>
+      </div>
+      <div id="footer-rights" class="text-sm"></div>
+    </div>
+  </footer>
+
+  <script>
+    // ============================================================================
+    // 1. SITE DATA
+    // ============================================================================
+    const SITE_DATA = {
+      settings: {
+        contactEmail: "kalambisesyl@gmail.com",
+        copyrightYear: "2026",
+        copyrightYearBn: "২০২৬"
+      },
+      labels: {
+        headerTitle: { bn: "শিক্ষা তথ্য", en: "Education Info" },
+        langBtn: { bn: "Eng", en: "বাংলা" },
+        latestUpdateLabel: { bn: "সর্বশেষ খবর:", en: "Latest Update:" },
+        importantLinks: { bn: "গুরুত্বপূর্ণ লিংক", en: "Important Links" },
+        noticeBoard: { bn: "নোটিশ", en: "Notice" },
+        viewDetails: { bn: "বিস্তারিত দেখুন", en: "View Details" },
+        viewAllNotices: { bn: "সকল নোটিশ দেখুন", en: "View All Notices" },
+        contact: { bn: "যোগাযোগ:", en: "Contact:" },
+        allRights: { bn: "সর্বস্বত্ব সংরক্ষিত ©", en: "All Rights Reserved ©" }
+      },
+      content: {
+        marqueeNotice: { 
+          bn: "জরুরী নোটিশ: সিলেট জেলার কলেজসমূহের জন্য এইচএসসি পরীক্ষার ফরম পূরণ সংক্রান্ত বিজ্ঞপ্তি অবিলম্বে কার্যকর হবে। বিস্তারিত জানতে নোটিশ বোর্ড দেখুন।", 
+          en: "Urgent Notice: HSC Exam Form Fill-up for Sylhet District Colleges is now active. Please check the notice board for detailed instructions." 
+        },
+        sidebarLinks: [
+          { id: 1, bn: "শিক্ষা মন্ত্রণালয়", en: "Ministry of Education", url: "http://www.moedu.gov.bd/" },
+          { id: 2, bn: "মাউশি অধিদপ্তর", en: "DSHE", url: "https://dshe.gov.bd" },
+          { id: 3, bn: "সিলেট শিক্ষা বোর্ড", en: "Sylhet Board", url: "https://sylhetboard.gov.bd" },
+          { id: 4, bn: "জাতীয় বিশ্ববিদ্যালয়", en: "National University", url: "https://www.nu.ac.bd/" },
+          { id: 5, bn: "শিক্ষক বাতায়ন", en: "Teachers' Portal", url: "https://www.teachers.gov.bd/" }
+        ],
+        notices: [
+          { date: "15 Jun 2026", bn: "এইচএসসি পরীক্ষা ২০২৬ এর ফরম পূরণ বিজ্ঞপ্তি", en: "HSC Exam 2026 Form Fill-up Notice", url: "#" },
+          { date: "10 Jun 2026", bn: "মাল্টিমিডিয়া ক্লাসরুম মনিটরিং প্রতিবেদন জমাদান", en: "Submission of Multimedia Classroom Monitoring Report", url: "#" },
+          { date: "05 Jun 2026", bn: "এমপিও (MPO) ভুক্ত শিক্ষকদের তথ্য হালনাগাদ", en: "Update of MPO Enlisted Teachers Information", url: "#" },
+          { date: "28 May 2026", bn: "সিলেট জেলার শ্রেষ্ঠ শিক্ষক নির্বাচন ২০২৬", en: "Selection of Best Teacher of Sylhet District 2026", url: "#" },
+          { date: "20 May 2026", bn: "কলেজ গভর্নিং বডি গঠনের নতুন নীতিমালা", en: "New Guidelines for College Governing Body Formation", url: "#" },
+        ],
+        carouselSlides: [
+          { id: 0, color: "from-blue-700 to-blue-900", icon: "monitor", bn: "...", en: "...", url: "#" },
+          { id: 1, color: "from-slate-600 to-slate-800", icon: "users", bn: "...", en: "...", url: "#" },
+          { id: 2, color: "from-blue-500 to-indigo-700", icon: "award", bn: "...", en: "...", url: "#" }
+        ],
+        gridItems: [
+          { id: 1, bn: "জুনিয়র", en: "Junior", icon: "users", url: "#" },
+          { id: 2, bn: "মাধ্যমিক", en: "Secondary", icon: "book-open", url: "#" },
+          { id: 3, bn: "উচ্চ মাধ্যমিক", en: "Higher Secondary", icon: "graduation-cap", url: "#" },
+          { id: 4, bn: "উচ্চ শিক্ষা", en: "Higher Education", icon: "award", url: "#" },
+          { id: 5, bn: "সিলেট বোর্ড", en: "Sylhet Board", icon: "building", url: "#" },
+          { id: 6, bn: "ঢাকা বোর্ড", en: "Dhaka Board", icon: "building", url: "#" },
+          { id: 7, bn: "শিক্ষা মন্ত্রণালয়", en: "Ministry of Education", icon: "landmark", url: "#" },
+          { id: 8, bn: "স্কুল ভর্তি", en: "School Admission", icon: "check-circle", url: "#" },
+          { id: 9, bn: "কলেজ ভর্তি", en: "College Admission", icon: "check-circle", url: "#" },
+          { id: 10, bn: "বিশ্ববিদ্যালয় ভর্তি", en: "University Admission", icon: "file-badge", url: "#" },
+          { id: 11, bn: "বিদেশে শিক্ষা", en: "Abroad Education", icon: "globe", url: "#" },
+          { id: 12, bn: "অন্যান্য", en: "Others", icon: "help-circle", url: "#" },
+          { id: 13, bn: "বোর্ড ফলাফল", en: "Board Results", icon: "file-text", url: "#" },
+          { id: 14, bn: "জাতীয় বিশ্ববিদ্যালয় রেজাল্ট", en: "NU Result", icon: "file-text", url: "#" },
+          { id: 15, bn: "বিজ্ঞপ্তি", en: "Circular", icon: "bell", url: "#" },
+          { id: 16, bn: "ম্যানেজিং কমিটি", en: "Managing Committee", icon: "users", url: "#" },
+          { id: 17, bn: " গভর্নিং বডি", en: "Governing Body", icon: "briefcase", extraClass: "md:col-span-2", url: "#" } 
+        ]
+      }
+    };
+
+    // ============================================================================
+    // 2. STATE MANAGEMENT
+    // ============================================================================
+    let isBengali = true;
+    let currentSlide = 0;
+    let carouselInterval;
+
+    const getText = (obj) => isBengali ? obj.bn : obj.en;
+
+    // ============================================================================
+    // 3. RENDERING FUNCTIONS
+    // ============================================================================
+
+    function updateStaticText() {
+      document.getElementById('header-title').innerText = getText(SITE_DATA.labels.headerTitle);
+      document.getElementById('lang-btn').innerText = getText(SITE_DATA.labels.langBtn);
+      document.getElementById('latest-update-label').innerText = getText(SITE_DATA.labels.latestUpdateLabel);
+      
+      const marqueeText = getText(SITE_DATA.content.marqueeNotice);
+      document.getElementById('marquee-text-1').innerText = marqueeText;
+      document.getElementById('marquee-text-2').innerText = marqueeText;
+
+      document.getElementById('important-links-label').innerText = getText(SITE_DATA.labels.importantLinks);
+      document.getElementById('notice-board-label').innerText = getText(SITE_DATA.labels.noticeBoard);
+      document.getElementById('view-all-notices').innerText = getText(SITE_DATA.labels.viewAllNotices);
+      
+      document.getElementById('footer-contact').innerText = `${getText(SITE_DATA.labels.contact)} ${SITE_DATA.settings.contactEmail}`;
+      document.getElementById('footer-rights').innerText = `${getText(SITE_DATA.labels.allRights)} ${isBengali ? SITE_DATA.settings.copyrightYearBn : SITE_DATA.settings.copyrightYear}`;
+    }
+
+    function renderSidebar() {
+      const container = document.getElementById('sidebar-links');
+      container.innerHTML = SITE_DATA.content.sidebarLinks.map(link => `
+        <li>
+          <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="flex items-center px-4 py-3 hover:bg-blue-50 text-slate-700 hover:text-blue-700 transition-colors group">
+            <i data-lucide="chevron-right" class="h-4 w-4 text-slate-400 group-hover:text-blue-600 mr-2 transition-transform group-hover:translate-x-1"></i>
+            <span class="font-medium text-sm">${getText(link)}</span>
+          </a>
+        </li>
+      `).join('');
+    }
+
+    function renderNotices() {
+      const container = document.getElementById('notice-list');
+      container.innerHTML = SITE_DATA.content.notices.map((notice) => `
+        <li class="hover:bg-slate-50 transition-colors group">
+          <a href="${notice.url}" class="block p-4 cursor-pointer">
+            <div>
+              <span class="inline-block px-2 py-0.5 bg-slate-100 text-slate-500 text-xs font-semibold rounded mb-1">${notice.date}</span>
+              <p class="text-sm font-medium text-slate-800 group-hover:text-blue-700 line-clamp-2">${getText(notice)}</p>
+            </div>
+          </a>
+        </li>
+      `).join('');
+    }
+
+    function renderGrid() {
+      const container = document.getElementById('service-grid');
+      container.innerHTML = SITE_DATA.content.gridItems.map(item => `
+        <a href="${item.url}" class="group cursor-pointer flex flex-col items-center justify-center p-6 bg-slate-50 border border-slate-200 rounded-xl hover:bg-blue-600 hover:border-blue-600 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${item.extraClass || ''}">
+          <div class="bg-white p-3 rounded-full shadow-sm mb-3 group-hover:bg-blue-500 transition-colors">
+            <i data-lucide="${item.icon}" class="h-8 w-8 text-blue-700 group-hover:text-white transition-colors" stroke-width="1.5"></i>
+          </div>
+          <span class="text-sm font-bold text-slate-800 group-hover:text-white text-center">
+            ${getText(item)}
+          </span>
+        </a>
+      `).join('');
+    }
+
+    function renderCarouselStructure() {
+      const slidesContainer = document.getElementById('carousel-slides');
+      const indicatorsContainer = document.getElementById('carousel-indicators');
+      
+      slidesContainer.innerHTML = SITE_DATA.content.carouselSlides.map((slide, index) => `
+        <div class="carousel-slide absolute inset-0 bg-gradient-to-br ${slide.color} flex flex-col items-center justify-center p-6 text-white transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
+          <i data-lucide="${slide.icon}" class="h-16 w-16 mb-4 opacity-90" stroke-width="1.5"></i>
+          <h3 class="text-2xl font-bold text-center mb-6 shadow-sm">${getText(slide)}</h3>
+          <a href="${slide.url}" class="px-6 py-2 bg-white text-slate-900 font-semibold rounded shadow hover:bg-slate-100 transition-colors inline-block">
+            ${getText(SITE_DATA.labels.viewDetails)}
+          </a>
+        </div>
+      `).join('');
+
+      indicatorsContainer.innerHTML = SITE_DATA.content.carouselSlides.map((_, index) => `
+        <button data-index="${index}" class="carousel-indicator h-2 rounded-full transition-all duration-300 ${index === currentSlide ? 'w-6 bg-white' : 'w-2 bg-white/50'}"></button>
+      `).join('');
+
+      document.querySelectorAll('.carousel-indicator').forEach(button => {
+          button.addEventListener('click', (e) => {
+              goToSlide(parseInt(e.target.getAttribute('data-index')));
+          });
+      });
+    }
+
+    function updateCarouselView() {
+      const slides = document.querySelectorAll('.carousel-slide');
+      const indicators = document.querySelectorAll('.carousel-indicator');
+      
+      slides.forEach((slide, index) => {
+          if (index === currentSlide) {
+              slide.classList.remove('opacity-0', 'z-0');
+              slide.classList.add('opacity-100', 'z-10');
+          } else {
+              slide.classList.remove('opacity-100', 'z-10');
+              slide.classList.add('opacity-0', 'z-0');
+          }
+      });
+
+      indicators.forEach((ind, index) => {
+          if (index === currentSlide) {
+              ind.classList.remove('w-2', 'bg-white/50');
+              ind.classList.add('w-6', 'bg-white');
+          } else {
+              ind.classList.remove('w-6', 'bg-white');
+              ind.classList.add('w-2', 'bg-white/50');
+          }
+      });
+    }
+
+    // ============================================================================
+    // 4. BEHAVIOR & INTERACTIVITY
+    // ============================================================================
+
+    function toggleLanguage() {
+      isBengali = !isBengali;
+      updateStaticText();
+      renderSidebar();
+      renderNotices();
+      renderGrid();
+      renderCarouselStructure();
+      if (window.lucide) window.lucide.createIcons(); 
+    }
+
+    function nextSlide() {
+      currentSlide = currentSlide === SITE_DATA.content.carouselSlides.length - 1 ? 0 : currentSlide + 1;
+      updateCarouselView();
+      resetCarouselInterval();
+    }
+
+    function prevSlide() {
+      currentSlide = currentSlide === 0 ? SITE_DATA.content.carouselSlides.length - 1 : currentSlide - 1;
+      updateCarouselView();
+      resetCarouselInterval();
+    }
